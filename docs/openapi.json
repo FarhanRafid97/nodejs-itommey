@@ -1,0 +1,335 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "description": "Simple Crud Api product",
+    "title": "ITOMMEY API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Product",
+      "description": "Product resources"
+    }
+  ],
+  "paths": {
+    "/product": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "List all available product",
+        "description": "Description for list product",
+        "operationId": "getProducts",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Add new Product",
+        "description": "Create new",
+        "operationId": "addProduct",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Product"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Product"
+          },
+          "400": {
+            "description": "Failed to create new Product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Failed to create new Porduct"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/product/{productId}": {
+      "get": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Find Product by ID",
+        "description": "Returns a single product",
+        "operationId": "getProductById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Product"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Product"
+          },
+          "400": {
+            "description": "Product Alredy Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Product Alredy Deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "We dont have product with Id"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Find Product by ID",
+        "description": "Returns a single product",
+        "operationId": "deleteProductById",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Product"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "Product Deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Product Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "We dont have product with Id:999"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Product"
+        ],
+        "summary": "Edit Product by ID",
+        "description": "Updates a single product",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Product"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/Product"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Product"
+          },
+          "400": {
+            "description": "Invalid ID"
+          },
+          "404": {
+            "description": "Product Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "We dont have product with Id:999"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "example": "lifeboy"
+          },
+          "qty": {
+            "type": "number",
+            "example": 10
+          },
+          "picture": {
+            "type": "string",
+            "example": "base64file"
+          },
+          "isActive": {
+            "type": "boolean",
+            "example": true
+          },
+          "expiredAt": {
+            "type": "string",
+            "example": "2022-11-17 04:33:12"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2022-9-12 04:33:12"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2022-9-12 04:33:12"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "Product": {
+        "description": "Product object",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "lifeboy"
+                },
+                "qty": {
+                  "type": "number",
+                  "example": 10
+                },
+                "picture": {
+                  "type": "string",
+                  "example": "base64file"
+                },
+                "expiredAt": {
+                  "type": "string",
+                  "example": "2022-11-17 04:33:12"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "Product": {
+        "description": "Successful operation",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "name": {
+                  "type": "string",
+                  "example": "lifeboy"
+                },
+                "qty": {
+                  "type": "number",
+                  "example": 10
+                },
+                "picture": {
+                  "type": "string",
+                  "example": "base64file"
+                },
+                "isActive": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "expiredAt": {
+                  "type": "string",
+                  "example": "2022-11-17 04:33:12"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "example": "2022-9-12 04:33:12"
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2022-9-12 04:33:12"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "Product": {
+        "in": "path",
+        "name": "productId",
+        "description": "ID of Porudct to return",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

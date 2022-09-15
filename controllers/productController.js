@@ -12,11 +12,22 @@ const getProducts = async (_, res) => {
 const getProduct = async (req, res) => {
   const { id } = req.params;
 
+  const numId = Number(id);
+  if (Number.isNaN(numId)) {
+    return res.status(400).json({
+      message: 'ID must be a number',
+    });
+  }
+
   try {
-    const product = await Product.findOne({ where: { id: Number(id) } });
+    const product = await Product.findOne({ where: { id: numId } });
 
     if (!product) {
-      return res.status(400).json({ msg: `We dont have product with Id:${id}` });
+      return res.status(404).json({ msg: `We dont have product with Id:${id}` });
+    }
+
+    if (!product.isActive) {
+      return res.status(400).json({ msg: `Product Alredy Deleted` });
     }
 
     return res.status(200).json(product);
@@ -27,8 +38,23 @@ const getProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
+
+  const numId = Number(id);
+  if (Number.isNaN(numId)) {
+    return res.status(400).json({
+      message: 'ID must be a number',
+    });
+  }
+
   try {
-    await Product.update({ isActive: false }, { where: { id: Number(id) } });
+    const product = await Product.findOne({ where: { id: numId } });
+
+    if (!product) {
+      return res.status(404).json({ msg: `We dont have product with Id:${id}` });
+    }
+
+    await Product.update({ isActive: false }, { where: { id: numId } });
+
     return res.status(200).json({ msg: 'Product Deleted' });
   } catch (error) {
     return res.status(400).json({ msg: error.message });
@@ -62,13 +88,21 @@ const addProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
+  const { picture, name, qty, expiredAt } = req.body;
   const { id } = req.params;
-  const { picture, name, qty } = req.body;
+
+  const numId = Number(id);
+  if (Number.isNaN(numId)) {
+    return res.status(400).json({
+      message: 'ID must be a number',
+    });
+  }
+
   try {
     if ('isActive' in req.body) {
       return res.status(400).json({ msg: 'Invalid Input Key' });
     }
-    const product = await Product.findOne({ where: { id: Number(id) } });
+    const product = await Product.findOne({ where: { id: numId } });
 
     if (!product) {
       return res.status(400).json({ msg: `We dont have product with Id:${id}` });
@@ -76,9 +110,9 @@ const updateProduct = async (req, res) => {
     if (product.isActive === false) {
       return res.status(400).json({ msg: 'Product Alredy Deleted' });
     }
-    await Product.update({ picture, name, qty }, { where: { id: Number(id) } });
+    await Product.update({ picture, name, qty, expiredAt }, { where: { id: numId } });
 
-    const updatedProduct = await Product.findOne({ where: { id: Number(id) } });
+    const updatedProduct = await Product.findOne({ where: { id: numId } });
 
     return res.status(200).json(updatedProduct);
   } catch (error) {
