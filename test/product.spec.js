@@ -54,7 +54,7 @@ describe('/api/v1/product', () => {
   it('status: 400 and dont return detail product', async () => {
     const response = await request(app).get('/api/v1/product/4');
     console.log(response.status);
-    expect(response.status).toEqual(400);
+    expect(response.status).toEqual(404);
 
     expect(response.body).toHaveProperty('msg');
     expect(response.body.msg).toEqual('We dont have product with Id:4');
@@ -78,7 +78,7 @@ describe('/api/v1/product', () => {
       .send({ name: 'Beng Beng updated' })
       .set('Accept', 'application/json');
 
-    expect(response.status).toEqual(400);
+    expect(response.status).toEqual(404);
 
     expect(response.body).toHaveProperty('msg');
     expect(response.body.msg).toEqual('We dont have product with Id:4');

@@ -105,7 +105,7 @@ const updateProduct = async (req, res) => {
     const product = await Product.findOne({ where: { id: numId } });
 
     if (!product) {
-      return res.status(400).json({ msg: `We dont have product with Id:${id}` });
+      return res.status(404).json({ msg: `We dont have product with Id:${id}` });
     }
     if (product.isActive === false) {
       return res.status(400).json({ msg: 'Product Alredy Deleted' });
