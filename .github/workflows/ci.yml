@@ -36,7 +36,7 @@ jobs:
       NODE_ENV: test
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
-      DB_NAME: binar-sample-api
+      DB_NAME: itommey-api
       APP_SECRET: secret-information
 
     services:
