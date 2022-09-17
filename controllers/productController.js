@@ -1,8 +1,25 @@
 const { Product } = require('../models');
 
+const paginationProduct = async (req, res) => {
+  const { offset = 1, limit = 5 } = req.query;
+  try {
+    const products = await Product.findAll({
+      where: { isActive: true },
+      order: [['id', 'ASC']],
+      offset,
+      limit,
+    });
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(400).json({ msg: error.message });
+  }
+};
 const getProducts = async (_, res) => {
   try {
-    const products = await Product.findAll({ where: { isActive: true } });
+    const products = await Product.findAll({
+      where: { isActive: true },
+      order: [['id', 'ASC']],
+    });
     return res.status(200).json(products);
   } catch (error) {
     return res.status(400).json({ msg: error.message });
@@ -120,4 +137,11 @@ const updateProduct = async (req, res) => {
   }
 };
 
-module.exports = { addProduct, getProducts, getProduct, deleteProduct, updateProduct };
+module.exports = {
+  addProduct,
+  getProducts,
+  paginationProduct,
+  getProduct,
+  deleteProduct,
+  updateProduct,
+};
