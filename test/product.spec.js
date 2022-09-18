@@ -83,4 +83,13 @@ describe('/api/v1/product', () => {
     expect(response.body).toHaveProperty('msg');
     expect(response.body.msg).toEqual('We dont have product with Id:4');
   });
+
+  it('status: 400 and dont return detail product', async () => {
+    const response = await request(app).get('/api/v1/product/aaa');
+    console.log(response.status);
+    expect(response.status).toEqual(400);
+
+    expect(response.body).toHaveProperty('msg');
+    expect(response.body.msg).toEqual('ID must be a number');
+  });
 });

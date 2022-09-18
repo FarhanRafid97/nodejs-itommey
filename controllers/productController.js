@@ -32,7 +32,7 @@ const getProduct = async (req, res) => {
   const numId = Number(id);
   if (Number.isNaN(numId)) {
     return res.status(400).json({
-      message: 'ID must be a number',
+      msg: 'ID must be a number',
     });
   }
 
@@ -59,7 +59,7 @@ const deleteProduct = async (req, res) => {
   const numId = Number(id);
   if (Number.isNaN(numId)) {
     return res.status(400).json({
-      message: 'ID must be a number',
+      msg: 'ID must be a number',
     });
   }
 
@@ -111,7 +111,7 @@ const updateProduct = async (req, res) => {
   const numId = Number(id);
   if (Number.isNaN(numId)) {
     return res.status(400).json({
-      message: 'ID must be a number',
+      msg: 'ID must be a number',
     });
   }
 
